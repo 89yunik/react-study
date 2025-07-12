@@ -9,6 +9,7 @@ interface MovieResponse {
   results: Array<{
     adult: boolean
     poster_path: string
+    release_date: string
     id: number
     title: string
   }>
@@ -37,7 +38,11 @@ export const Movie: FC = () => {
   return (
     <div>
       {data.results.map((result) => (
-        <div key={result.id}>{result.title}</div>
+        <div key={result.id}>
+          <img src={`https://media.themoviedb.org/t/p/w220_and_h330_face/${result.poster_path}`} />
+          <h2>{result.title}</h2>
+          <div>{result.release_date}</div>
+        </div>
       ))}
     </div>
   )
