@@ -37,10 +37,10 @@ export const Movie: FC = () => {
     return <div>Loading...</div>
   }
 
-  const { content, flex, scroller } = styles
+  const { content, grid, scroller } = styles
 
   return (
-    <div className={`${content} ${flex} ${scroller}`}>
+    <div className={`${content} ${grid} ${scroller}`}>
       {data.results.map((result) => (
         <div key={result.id}>
           <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} />
