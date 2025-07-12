@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { FC } from "react"
+import styles from "./Movie.module.css"
 
 const BASE_URL = "https://api.themoviedb.org/3"
 
@@ -35,13 +36,18 @@ export const Movie: FC = () => {
   if (data === undefined) {
     return <div>Loading...</div>
   }
+
+  const { content, flex, scroller } = styles
+
   return (
-    <div>
+    <div className={`${content} ${flex} ${scroller}`}>
       {data.results.map((result) => (
         <div key={result.id}>
-          <img src={`https://media.themoviedb.org/t/p/w220_and_h330_face/${result.poster_path}`} />
-          <h2>{result.title}</h2>
-          <div>{result.release_date}</div>
+          <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} />
+          <div>
+            <h2>{result.title}</h2>
+            <p>{result.release_date}</p>
+          </div>
         </div>
       ))}
     </div>

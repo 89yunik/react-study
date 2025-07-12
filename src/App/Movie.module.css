@@ -1,7 +1,41 @@
+img {
+    border-radius: 0.5em;
+    max-width: inherit;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+.content {
+    width: 100dvh;
+    gap: 20px;
+}
+
+.content h2 {
+    font-size: 1em;
+    margin: 0;
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
+.content p {
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, .6);
+}
+
 .flex {
     display: flex;
 }
 
 .scroller {
     overflow: auto;
+
 }
