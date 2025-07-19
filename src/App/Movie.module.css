@@ -1,12 +1,7 @@
-img {
-  border-radius: 0.5em;
-  max-width: inherit;
-}
-
 p {
   display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
+  margin-block-start: 1rem;
+  margin-block-end: 1rem;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   unicode-bidi: isolate;
@@ -18,7 +13,7 @@ p {
 }
 
 .content h2 {
-  font-size: 1em;
+  font-size: 1rem;
   margin: 0;
   width: 100%;
   overflow-wrap: break-word;
@@ -47,4 +42,25 @@ p {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+.image_wrapper {
+  position: relative;
+  height: auto;
+}
+
+.image_wrapper img {
+  border-radius: 0.5em;
+  max-width: inherit;
+}
+
+.favorite_icon {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.4rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: gold;
+  text-shadow: 1px 1px 3px #000;
+  user-select: none;
 }

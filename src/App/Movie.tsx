@@ -3,6 +3,7 @@ import axios from "axios";
 import { FC } from "react";
 import styles from "./Movie.module.css";
 import clsx from "clsx";
+import { useFavorites } from "./hooks/useFavorites";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -27,6 +28,7 @@ const getPopularMovies = async (): Promise<MovieResponse> => {
 };
 
 export const Movie: FC = () => {
+  const { isFavorite, toggle } = useFavorites();
   const { data } = useQuery<MovieResponse, unknown>({
     queryFn: getPopularMovies,
     queryKey: ["popular-movies"],
@@ -42,9 +44,12 @@ export const Movie: FC = () => {
     <div className={clsx(styles.content, styles.grid, styles.scroller)}>
       {data.results.map((result) => (
         <div key={result.id}>
-          <img
-            src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`}
-          />
+          <div className={styles.image_wrapper}>
+            <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} />
+            <span role="button" className={styles.favorite_icon} onClick={() => toggle(result.id)}>
+              {isFavorite(result.id) ? "★" : "☆"}
+            </span>
+          </div>
           <div className={styles.card_text}>
             <h2 className={styles.card_title}>{result.title}</h2>
             <p>{result.release_date}</p>
