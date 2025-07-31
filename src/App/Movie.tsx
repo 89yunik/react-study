@@ -56,7 +56,7 @@ export const Movie: FC = () => {
       {data.results.map((result) => (
         <div key={result.id}>
           <div className={styles.image_wrapper}>
-            <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} />
+            <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} alt={result.title} />
             <span
               role="button"
               className={styles.favorite_icon}
