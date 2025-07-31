@@ -4,7 +4,7 @@ import { FC } from "react";
 import styles from "./Movie.module.css";
 import clsx from "clsx";
 import { useFavorites } from "./hooks/useFavorites";
-import { MovieResponse } from "../types/common";
+import { MovieResponse } from "../Movies/common/types/movie.type";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 

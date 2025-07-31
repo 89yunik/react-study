@@ -6,5 +6,6 @@ export interface MovieResponse {
     release_date: string;
     id: number;
     title: string;
+    overview: string;
   }>;
 }

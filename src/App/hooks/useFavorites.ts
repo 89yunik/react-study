@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MovieResponse } from "../../types/common";
+import { MovieResponse } from "../../Movies/common/types/movie.type";
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState<number[]>([]);
