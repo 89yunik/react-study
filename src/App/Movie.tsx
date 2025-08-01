@@ -5,6 +5,7 @@ import styles from "./Movie.module.css";
 import clsx from "clsx";
 import { useFavorites } from "./hooks/useFavorites";
 import { MovieResponse } from "../Movies/common/types/movie.type";
+import { Link } from "react-router-dom";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -55,19 +56,21 @@ export const Movie: FC = () => {
     <div className={clsx(styles.content, styles.grid, styles.scroller)}>
       {data.results.map((result) => (
         <div key={result.id}>
-          <div className={styles.image_wrapper}>
-            <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} alt={result.title} />
-            <span
-              role="button"
-              className={styles.favorite_icon}
-              onClick={() => {
-                mutate({ id: result.id, favorite: true });
-                toggle(result.id);
-              }}
-            >
-              {isFavorite(result.id) ? "★" : "☆"}
-            </span>
-          </div>
+          <Link to={`/movies/${result.id}`} state={result}>
+            <div className={styles.image_wrapper}>
+              <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} alt={result.title} />
+              <span
+                role="button"
+                className={styles.favorite_icon}
+                onClick={() => {
+                  mutate({ id: result.id, favorite: true });
+                  toggle(result.id);
+                }}
+              >
+                {isFavorite(result.id) ? "★" : "☆"}
+              </span>
+            </div>
+          </Link>
           <div className={styles.card_text}>
             <h2 className={styles.card_title}>{result.title}</h2>
             <p>{result.release_date}</p>

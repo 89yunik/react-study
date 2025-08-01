@@ -2,6 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FC } from "react";
 import { Movie } from "./Movie";
 import { useRequestToken } from "./hooks/useRequestToken";
+import { Route, Routes } from "react-router-dom";
+import { MovieDetail } from "./MovieDetail";
 
 const App: FC = () => {
   const queryClient = new QueryClient();
@@ -10,16 +12,13 @@ const App: FC = () => {
   // useEffect로 session id 생성하기
 
   const handleClick = async () => {
-    const tokenResponse = await fetch(
-      `https://api.themoviedb.org/3/authentication/token/new`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${process.env.REACT_APP_TMDB_AUTHENTICATION_KEY}`,
-        },
-      }
-    );
+    const tokenResponse = await fetch(`https://api.themoviedb.org/3/authentication/token/new`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_TMDB_AUTHENTICATION_KEY}`,
+      },
+    });
     const requestToken = await tokenResponse.json();
     const redirectUrl = new URLSearchParams({
       redirect_to: "http://localhost:3001/",
@@ -35,7 +34,10 @@ const App: FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Movie></Movie>
+      <Routes>
+        <Route path="/" element={<Movie />} />
+        <Route path="/movies/:id" element={<MovieDetail />} />
+      </Routes>
       <button onClick={handleClick}>로그인하기</button>
     </QueryClientProvider>
   );
