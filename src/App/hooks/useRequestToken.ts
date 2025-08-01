@@ -6,11 +6,13 @@ export const useRequestToken = () => {
 
   useEffect(() => {
     const requestToken = searchParams.get("request_token");
+    const id = searchParams.get("id");
+    const password = searchParams.get("password");
 
     if (!requestToken) return;
 
     const asyncFun = async () => {
-      const sessionResponse = await fetch(`https://api.themoviedb.org/3/authentication/session/new`, {
+      const sessionResponse = await fetch(`https://api.themoviedb.org/3/authentication/token/validate_with_login`, {
         method: "POST",
         headers: {
           accept: "application/json",
@@ -18,10 +20,12 @@ export const useRequestToken = () => {
           "content-type": "application/json",
         },
         body: JSON.stringify({
+          username: id,
+          password,
           request_token: requestToken,
         }),
       });
-      const sessionId = (await sessionResponse.json()).session_id;
+      const sessionId = (await sessionResponse.json()).request_token;
 
       if (!sessionId) return;
 

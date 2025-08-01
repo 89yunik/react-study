@@ -20,8 +20,10 @@ const App: FC = () => {
       },
     });
     const requestToken = await tokenResponse.json();
+    const id = (document.getElementById("id") as HTMLInputElement).value;
+    const password = (document.getElementById("password") as HTMLInputElement).value;
     const redirectUrl = new URLSearchParams({
-      redirect_to: "http://localhost:3001/",
+      redirect_to: `http://localhost:3001/?id=${id}&password=${password}`,
     });
 
     //URL로 이동시켜주기
@@ -38,6 +40,8 @@ const App: FC = () => {
         <Route path="/" element={<Movie />} />
         <Route path="/movies/:id" element={<MovieDetail />} />
       </Routes>
+      <input id="id" type="text" placeholder="id" />
+      <input id="password" type="password" placeholder="password" />
       <button onClick={handleClick}>로그인하기</button>
     </QueryClientProvider>
   );
