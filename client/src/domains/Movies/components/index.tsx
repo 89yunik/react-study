@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 import { MovieResponse } from "../common/types/movie.type";
 import { useFavorites } from "../../common/hooks/useFavorites";
 
-const BASE_URL = "https://api.themoviedb.org/3";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const getPopularMovies = async (): Promise<MovieResponse> => {
-  const { data } = await axios.get(`${BASE_URL}/movie/popular`, {
+  const { data } = await axios.get(`${API_BASE_URL}/api/movies`, {
     params: {
-      api_key: process.env.REACT_APP_TMDB_API_KEY,
+      sort_by: "popularity.desc",
       language: "ko-KR",
     },
   });
@@ -28,21 +28,34 @@ export const Movie: FC = () => {
     staleTime: 1000 * 60 * 10,
   });
 
-  const { mutate } = useMutation<Response, any, { id: number; favorite: boolean }>({
+  const { mutate } = useMutation<
+    Response,
+    any,
+    { id: number; favorite: boolean }
+  >({
     mutationFn: async (data) => {
       const accountId = localStorage.getItem("accountId");
-      const response = await fetch(`${BASE_URL}/account/${accountId}/favorite`, {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${process.env.REACT_APP_TMDB_AUTHENTICATION_KEY}`,
-        },
-        body: JSON.stringify({
-          media_id: data.id,
-          media_type: "movie",
-          favorite: data.favorite,
-        }),
-      });
+      const sessionId = localStorage.getItem("sessionId");
+
+      if (!accountId || !sessionId) {
+        throw new Error("User not authenticated");
+      }
+
+      const response = await fetch(
+        `${API_BASE_URL}/api/account/${accountId}/favorite`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            media_id: data.id,
+            media_type: "movie",
+            favorite: data.favorite,
+            session_id: sessionId,
+          }),
+        }
+      );
       return response;
     },
     mutationKey: ["favorite-movies"],
@@ -58,7 +71,10 @@ export const Movie: FC = () => {
         <div key={result.id}>
           <Link to={`/movies/${result.id}`} state={result}>
             <div className={styles.image_wrapper}>
-              <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} alt={result.title} />
+              <img
+                src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`}
+                alt={result.title}
+              />
               <span
                 role="button"
                 className={styles.favorite_icon}
