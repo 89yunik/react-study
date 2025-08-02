@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FC } from "react";
-import styles from "./Movie.module.css";
+import styles from "./index.module.css";
 import clsx from "clsx";
-import { useFavorites } from "./hooks/useFavorites";
-import { MovieResponse } from "../Movies/common/types/movie.type";
 import { Link } from "react-router-dom";
+import { MovieResponse } from "../common/types/movie.type";
+import { useFavorites } from "../../common/hooks/useFavorites";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
