@@ -1,9 +1,7 @@
 import { FC, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Login: FC = () => {
-  const location = useLocation();
-  const movieDetail = location.state;
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
