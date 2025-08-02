@@ -21,7 +21,13 @@ export const useRequestToken = () => {
           request_token: requestToken,
         }),
       });
-      const sessionId = await sessionResponse.json();
+      const sessionId = (await sessionResponse.json()).session_id;
+
+      if (!sessionId) return;
+
+      const accountResponse = await fetch(`https://api.themoviedb.org/3/account?api_key=${process.env.REACT_APP_TMDB_API_KEY}&session_id=${sessionId}`).then((res) => res.json());
+
+      localStorage.setItem("accountId", accountResponse.id);
     };
 
     asyncFun();

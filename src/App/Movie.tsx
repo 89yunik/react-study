@@ -1,22 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FC } from "react";
 import styles from "./Movie.module.css";
 import clsx from "clsx";
 import { useFavorites } from "./hooks/useFavorites";
+import { MovieResponse } from "../Movies/common/types/movie.type";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
-interface MovieResponse {
-  page: number;
-  results: Array<{
-    adult: boolean;
-    poster_path: string;
-    release_date: string;
-    id: number;
-    title: string;
-  }>;
-}
 const getPopularMovies = async (): Promise<MovieResponse> => {
   const { data } = await axios.get(`${BASE_URL}/movie/popular`, {
     params: {
@@ -36,6 +27,26 @@ export const Movie: FC = () => {
     staleTime: 1000 * 60 * 10,
   });
 
+  const { mutate } = useMutation<Response, any, { id: number; favorite: boolean }>({
+    mutationFn: async (data) => {
+      const accountId = localStorage.getItem("accountId");
+      const response = await fetch(`${BASE_URL}/account/${accountId}/favorite`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_TMDB_AUTHENTICATION_KEY}`,
+        },
+        body: JSON.stringify({
+          media_id: data.id,
+          media_type: "movie",
+          favorite: data.favorite,
+        }),
+      });
+      return response;
+    },
+    mutationKey: ["favorite-movies"],
+  });
+
   if (data === undefined) {
     return <div>Loading...</div>;
   }
@@ -45,8 +56,15 @@ export const Movie: FC = () => {
       {data.results.map((result) => (
         <div key={result.id}>
           <div className={styles.image_wrapper}>
-            <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} />
-            <span role="button" className={styles.favorite_icon} onClick={() => toggle(result.id)}>
+            <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} alt={result.title} />
+            <span
+              role="button"
+              className={styles.favorite_icon}
+              onClick={() => {
+                mutate({ id: result.id, favorite: true });
+                toggle(result.id);
+              }}
+            >
               {isFavorite(result.id) ? "★" : "☆"}
             </span>
           </div>
