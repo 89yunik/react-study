@@ -5,6 +5,7 @@ import { Movie } from "../domains/Movies/components";
 import { MovieDetail } from "../domains/Movies/components/MovieDetail";
 import { useRequestToken } from "../App/hooks/useRequestToken";
 import { Login } from "../domains/Login/components";
+import Header from "./Header";
 
 const Pages: FC = () => {
   const queryClient = new QueryClient();
@@ -18,6 +19,7 @@ const Pages: FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Header />
       <Routes>
         <Route path="/" element={<Movie />} />
         <Route path="/movies/:id" element={<MovieDetail />} />
