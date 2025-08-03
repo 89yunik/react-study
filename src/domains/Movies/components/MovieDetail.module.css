@@ -1,0 +1,55 @@
+.reset_button {
+  all: unset;
+  cursor: pointer;
+}
+
+.movie_detail {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background: #121212;
+  color: #fff;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.poster_wrapper {
+  flex-shrink: 0;
+  position: relative;
+  height: auto;
+}
+
+.poster {
+  width: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.favorite_icon {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.4rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: gold;
+  text-shadow: 1px 1px 3px #000;
+  user-select: none;
+}
+
+.movie_texts {
+  flex-grow: 1;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.overview {
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #ddd;
+}

@@ -12,7 +12,7 @@ export const useRequestToken = () => {
     if (!requestToken) return;
 
     const asyncFun = async () => {
-      const sessionResponse = await fetch(`https://api.themoviedb.org/3/authentication/token/validate_with_login`, {
+      const loginResponse = await fetch(`https://api.themoviedb.org/3/authentication/token/validate_with_login`, {
         method: "POST",
         headers: {
           accept: "application/json",
@@ -25,7 +25,22 @@ export const useRequestToken = () => {
           request_token: requestToken,
         }),
       });
-      const sessionId = (await sessionResponse.json()).request_token;
+      const success = (await loginResponse.json()).success;
+
+      if (!success) return;
+
+      const sessionResponse = await fetch(`https://api.themoviedb.org/3/authentication/session/new`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_TMDB_AUTHENTICATION_KEY}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          request_token: requestToken,
+        }),
+      });
+      const sessionId = (await sessionResponse.json()).session_id;
 
       if (!sessionId) return;
 
@@ -37,5 +52,3 @@ export const useRequestToken = () => {
     asyncFun();
   }, [searchParams]);
 };
-
-// 로그인페이지부터 생성해보기.
