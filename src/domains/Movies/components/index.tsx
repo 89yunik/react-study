@@ -59,16 +59,15 @@ export const Movie: FC = () => {
           <Link to={`/movies/${result.id}`} state={result}>
             <div className={styles.image_wrapper}>
               <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} alt={result.title} />
-              <span
-                role="button"
-                className={styles.favorite_icon}
+              <button
+                className={clsx(styles.favorite_icon, styles.reset_button)}
                 onClick={() => {
                   mutate({ id: result.id, favorite: true });
                   toggle(result.id);
                 }}
               >
                 {isFavorite(result.id) ? "★" : "☆"}
-              </span>
+              </button>
             </div>
           </Link>
           <div className={styles.card_text}>
