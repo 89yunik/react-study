@@ -1,3 +1,8 @@
+.reset_button {
+  all: unset;
+  cursor: pointer;
+}
+
 .movie_detail {
   display: flex;
   gap: 2rem;
@@ -12,6 +17,8 @@
 
 .poster_wrapper {
   flex-shrink: 0;
+  position: relative;
+  height: auto;
 }
 
 .poster {
@@ -19,6 +26,17 @@
   border-radius: 8px;
   object-fit: cover;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.favorite_icon {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.4rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: gold;
+  text-shadow: 1px 1px 3px #000;
+  user-select: none;
 }
 
 .movie_texts {
