@@ -1,10 +1,20 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const Login: FC = () => {
+interface Props {}
+
+export const isLoggedInAtom = atomWithStorage("sessionId", false);
+
+export const Login: FC<Props> = () => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+
+  // const { setIsLoggedIn } = useLoggedIn();
+
+  const setIsLoggedIn = useSetAtom(isLoggedInAtom);
 
   const handleClick = async () => {
     try {
@@ -51,7 +61,10 @@ export const Login: FC = () => {
 
       const accountResponse = await fetch(`https://api.themoviedb.org/3/account?api_key=${process.env.REACT_APP_TMDB_API_KEY}&session_id=${sessionId}`).then((res) => res.json());
 
+      localStorage.setItem("sessionId", sessionId);
       localStorage.setItem("accountId", accountResponse.id);
+
+      setIsLoggedIn(true);
 
       navigate("/");
     } catch (error: any) {

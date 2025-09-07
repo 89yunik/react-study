@@ -31,6 +31,7 @@ export const useRequestToken = () => {
 
       const accountResponse = await fetch(`https://api.themoviedb.org/3/account?api_key=${process.env.REACT_APP_TMDB_API_KEY}&session_id=${sessionId}`).then((res) => res.json());
 
+      localStorage.setItem("sessionId", sessionId);
       localStorage.setItem("accountId", accountResponse.id);
     };
 

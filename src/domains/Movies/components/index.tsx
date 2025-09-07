@@ -55,21 +55,21 @@ export const Movie: FC = () => {
   return (
     <div className={clsx(styles.content, styles.grid, styles.scroller)}>
       {data.results.map((result) => (
-        <div key={result.id}>
+        <div key={result.id} className={styles.image_container}>
           <Link to={`/movies/${result.id}`} state={result}>
             <div className={styles.image_wrapper}>
               <img src={`https://media.themoviedb.org/t/p/w154/${result.poster_path}`} alt={result.title} />
-              <button
-                className={clsx(styles.favorite_icon, styles.reset_button)}
-                onClick={() => {
-                  mutate({ id: result.id, favorite: true });
-                  toggle(result.id);
-                }}
-              >
-                {isFavorite(result.id) ? "★" : "☆"}
-              </button>
             </div>
           </Link>
+          <button
+            className={clsx(styles.favorite_icon, styles.reset_button)}
+            onClick={(e) => {
+              mutate({ id: result.id, favorite: true });
+              toggle(result.id);
+            }}
+          >
+            {isFavorite(result.id) ? "★" : "☆"}
+          </button>
           <div className={styles.card_text}>
             <h2 className={styles.card_title}>{result.title}</h2>
             <p>{result.release_date}</p>

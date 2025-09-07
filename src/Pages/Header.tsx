@@ -1,20 +1,21 @@
-import { useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { isLoggedInAtom } from "../domains/Login/components";
 
-const Header = () => {
+interface Props {}
+
+const Header: FC<Props> = () => {
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const accountId = localStorage.getItem("accountId");
-    setIsLoggedIn(!!accountId);
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("acoountId");
     setIsLoggedIn(false);
     navigate("/");
   };
+
   return (
     <header>
       <div></div>
@@ -35,3 +36,13 @@ const Header = () => {
 };
 
 export default Header;
+
+// Recoil, Redux, Redux-saga, Zustand, Jotai
+
+// Recoil, Jotai (최하위에서 원자단위로 상태를 관리하겠다.)
+// Redux, Zustand (중앙관리형 상태관리)
+
+// Recoil, Redux 보일러 플레이트 코드 -> 복잡한 로직이 들어갈때
+// Jotai, Zustand -> 가벼운 로직이 들어갈때
+
+// Jotai

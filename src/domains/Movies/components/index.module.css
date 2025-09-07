@@ -1,5 +1,8 @@
 .reset_button {
   all: unset;
+  width: 20px;
+  height: 20px;
+
   cursor: pointer;
 }
 
@@ -49,8 +52,11 @@ p {
   -webkit-box-orient: vertical;
 }
 
-.image_wrapper {
+.image_container {
   position: relative;
+}
+
+.image_wrapper {
   height: auto;
 }
 
@@ -68,4 +74,5 @@ p {
   color: gold;
   text-shadow: 1px 1px 3px #000;
   user-select: none;
+  z-index: 100;
 }

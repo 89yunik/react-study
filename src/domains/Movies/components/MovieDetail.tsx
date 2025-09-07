@@ -13,10 +13,12 @@ export const MovieDetail: FC = () => {
   const { mutate } = useMutation<Response, any, { id: number; favorite: boolean }>({
     mutationFn: async (data) => {
       const accountId = localStorage.getItem("accountId");
+      const sessionId = localStorage.getItem("sessionId");
       const response = await fetch(`${BASE_URL}/account/${accountId}/favorite`, {
         method: "POST",
         headers: {
           accept: "application/json",
+          "content-type": "application/json",
           Authorization: `Bearer ${process.env.REACT_APP_TMDB_AUTHENTICATION_KEY}`,
         },
         body: JSON.stringify({
@@ -38,8 +40,10 @@ export const MovieDetail: FC = () => {
         <button
           className={clsx(styles.favorite_icon, styles.reset_button)}
           onClick={() => {
+            const new_favorite = !isFavorite(movieDetail.id);
+
             mutate({ id: movieDetail.id, favorite: true });
-            toggle(movieDetail.id);
+            // toggle(movieDetail.id);
           }}
         >
           {isFavorite(movieDetail.id) ? "★" : "☆"}
